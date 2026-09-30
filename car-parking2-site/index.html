@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPM2 Engine Lab | Car Parking 2 - Dodge Charger SRT</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&family=Anton&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Cairo',sans-serif;background:#0a0e14;color:#fff;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+  /* NAV */
+  nav{position:fixed;top:0;right:0;left:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(8,12,18,.75);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,255,255,.15)}
+  .logo{font-family:'Anton',sans-serif;font-size:22px;letter-spacing:1px}
+  .logo span{color:#3ef2ff}
+  .logo small{display:block;font-family:'Cairo';font-size:11px;color:#ffb35c;letter-spacing:3px}
+  .nav-links{display:flex;gap:24px;font-weight:700;font-size:15px}
+  .nav-links a{opacity:.8}.nav-links a:hover{opacity:1;color:#3ef2ff}
+  .btn{background:linear-gradient(90deg,#a855f7,#6d28d9);padding:10px 22px;border-radius:10px;font-weight:800;border:1px solid rgba(255,255,255,.2);box-shadow:0 0 20px rgba(168,85,247,.5)}
+  .btn-cyan{background:linear-gradient(90deg,#00e5ff,#0097b9);box-shadow:0 0 20px rgba(0,229,255,.4);color:#001318}
+  /* HERO - replica of your thumbnail */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;margin-top:0}
+  .hero-bg{position:absolute;inset:0;background:url('assets/hero.webp') center 58%/cover no-repeat;filter:saturate(1.15) contrast(1.05)}
+  .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,#0a0e14 0%,#0a0e14 16%,rgba(10,14,20,.2) 34%,rgba(0,0,0,.1) 55%,rgba(5,8,13,.7) 72%,#05080d 88%,#05080d 100%)}
+  .hero-content{position:relative;z-index:2;padding:110px 20px 80px;max-width:1100px;width:100%}
+  .badge{display:inline-block;background:rgba(0,0,0,.6);border:1px solid #3ef2ff;color:#3ef2ff;padding:6px 18px;border-radius:100px;font-weight:800;font-size:14px;margin-bottom:18px;box-shadow:0 0 15px rgba(62,242,255,.5)}
+  h1.title{font-family:'Anton',sans-serif;font-size:clamp(44px,8vw,96px);line-height:.95;color:#7df7ff;-webkit-text-stroke:2px #000;text-shadow:0 0 25px rgba(0,229,255,.6),0 4px 0 #000,0 8px 20px rgba(0,0,0,.8);letter-spacing:1px}
+  h2.sub{font-family:'Anton',sans-serif;font-size:clamp(18px,3.5vw,36px);color:#fff;-webkit-text-stroke:1.5px #000;text-shadow:0 3px 0 #000,0 0 15px rgba(0,0,0,.9);margin:8px 0 24px}
+  .stats-bar{display:inline-flex;flex-wrap:wrap;gap:0;background:rgba(0,0,0,.85);border:1px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden;font-family:'Anton';font-size:clamp(18px,3vw,32px);margin:10px auto}
+  .stats-bar div{padding:10px 22px;border-left:1px solid rgba(255,255,255,.15)}
+  .stats-bar div:last-child{border:none;color:#c084fc}
+  .stats-bar small{font-family:'Cairo';font-size:13px;display:block;color:#aaa}
+  .hero-btns{margin-top:26px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .hero-btns .btn{font-size:18px;padding:14px 34px;border-radius:12px}
+  .watermark{position:absolute;bottom:18px;left:20px;z-index:3;font-family:'Anton';font-size:20px;color:rgba(255,255,255,.9);text-shadow:0 2px 4px #000}
+  /* SECTIONS */
+  section{padding:70px 24px;max-width:1150px;margin:auto}
+  .sec-title{font-size:32px;font-weight:900;margin-bottom:8px}
+  .sec-title span{color:#3ef2ff}
+  .sec-sub{color:#8b98a9;margin-bottom:30px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .card{background:linear-gradient(180deg,#141c28,#0c121c);border:1px solid rgba(62,242,255,.2);border-radius:18px;padding:24px;position:relative;overflow:hidden}
+  .card::before{content:'';position:absolute;top:0;right:0;left:0;height:3px;background:linear-gradient(90deg,#00e5ff,#a855f7,#ff8c42)}
+  .card h3{font-size:40px;font-family:'Anton';color:#fff}
+  .card h3 em{font-size:18px;color:#3ef2ff;font-style:normal}
+  .card p{color:#8b98a9;font-size:14px;margin-top:6px}
+  .builds{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+  .build{background:#111927;border:1px solid #222f43;border-radius:18px;overflow:hidden}
+  .build img{width:100%;height:200px;object-fit:cover}
+  .build-body{padding:20px}
+  .build-body h4{font-family:'Anton';font-size:20px;letter-spacing:.5px}
+  .tag{display:inline-block;font-size:12px;font-weight:800;padding:4px 12px;border-radius:100px;margin:8px 0}
+  .tag-purple{background:rgba(168,85,247,.2);color:#c084fc;border:1px solid #a855f7}
+  .tag-cyan{background:rgba(0,229,255,.15);color:#3ef2ff;border:1px solid #00e5ff}
+  .tag-orange{background:rgba(255,140,66,.15);color:#ffb35c;border:1px solid #ff8c42}
+  footer{border-top:1px solid #1e293b;padding:30px;text-align:center;color:#64748b;font-size:14px}
+  /* Thumbnail export box 1280x720 */
+  .thumb-wrap{background:#05080d;padding:40px 20px;text-align:center;border-top:1px dashed #234}
+  .thumb{width:min(100%,960px);aspect-ratio:16/9;margin:20px auto;background:url('assets/hero.webp') center/cover;border-radius:12px;position:relative;overflow:hidden;border:2px solid #3ef2ff;box-shadow:0 0 40px rgba(0,229,255,.3);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:8%}
+  .thumb h1{font-family:'Anton';font-size:clamp(28px,6vw,64px);color:#7df7ff;-webkit-text-stroke:2px #000;text-shadow:0 0 20px rgba(0,229,255,.7),0 4px 0 #000;line-height:1}
+  .thumb h2{font-family:'Anton';font-size:clamp(14px,2.8vw,26px);color:#fff;-webkit-text-stroke:1px #000;text-shadow:0 3px 0 #000}
+  .thumb-stats{position:absolute;bottom:8%;background:rgba(0,0,0,.9);font-family:'Anton';font-size:clamp(14px,3vw,28px);padding:6px 18px}
+  @media(max-width:700px){.nav-links{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">CPM2 <span>ENGINE LAB</span><small>CAR PARKING 2</small></div>
+  <div class="nav-links">
+    <a href="#home">الرئيسية</a>
+    <a href="#specs">المواصفات</a>
+    <a href="#builds">التعديلات</a>
+    <a href="#thumb">صورة الموقع</a>
+  </div>
+  <a class="btn" href="#download">تحميل اللعبة</a>
+</nav>
+
+<header class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="badge">🔥 CAR PARKING MULTIPLAYER 2 • HYPER BUILD</div>
+    <h1 class="title">DODGE CHARGER SRT</h1>
+    <h2 class="sub">[ ULTIMATE HYPER-BUILD UNLEASHED ]</h2>
+    <div class="stats-bar">
+      <div>2300Hp</div>
+      <div>470km/h</div>
+      <div>2926Nm</div>
+    </div>
+    <div class="hero-btns">
+      <a class="btn btn-cyan" href="#specs">عرض التعديل ⚙️</a>
+      <a class="btn" href="#download">تحميل الإعدادات 📥</a>
+    </div>
+  </div>
+  <div class="watermark">@cpm2enginelab</div>
+</header>
+
+<section id="specs">
+  <h2 class="sec-title">مواصفات <span>الوحش البنفسجي 💜</span></h2>
+  <p class="sec-sub">نفس أرقام صورتك الأصلية — مصممة للدراق والهجولة في كار باركينج 2</p>
+  <div class="cards">
+    <div class="card"><h3>2300 <em>Hp</em></h3><p>قوة المحرك بعد التعديل الكامل — تيربو + مكينة W16 سワップ</p></div>
+    <div class="card"><h3>470 <em>km/h</em></h3><p>سرعة قصوى مع جيربوكس 8 سرعات ونسبة طويلة</p></div>
+    <div class="card"><h3>2926 <em>Nm</em></h3><p>عزم دوران يخليك تشحط من أول دعسة</p></div>
+    <div class="card"><h3>SRT <em>Widebody</em></h3><p>كيت عريض + جنوط سوداء بخط برتقالي + دخان Burnout</p></div>
+  </div>
+</section>
+
+<section id="builds">
+  <h2 class="sec-title">تعديلات <span>المحرك</span></h2>
+  <p class="sec-sub">انسخ الإعدادات داخل اللعبة</p>
+  <div class="builds">
+    <div class="build">
+      <img src="assets/hero.webp" alt="charger">
+      <div class="build-body">
+        <h4>DODGE CHARGER SRT PURPLE</h4>
+        <span class="tag tag-purple">DRAG • 1700-2300HP</span>
+        <p style="color:#8b98a9;font-size:14px">دفع خلفي • تواير Drag • سسبنشن واطي • لون Purple Chrome</p>
+      </div>
+    </div>
+    <div class="build">
+      <div style="height:200px;background:linear-gradient(135deg,#0e2a35,#1a1035);display:flex;align-items:center;justify-content:center;font-size:70px">🏎️</div>
+      <div class="build-body">
+        <h4>ENGINE SWAP + TURBO MAX</h4>
+        <span class="tag tag-cyan">GEARBOX 8-SPEED</span>
+        <p style="color:#8b98a9;font-size:14px">القير: 1st 3.2 / 8th 0.55 — الدفرنش: 3.73 — ضغط التيربو 2.8 بار</p>
+      </div>
+    </div>
+    <div class="build">
+      <div style="height:200px;background:linear-gradient(135deg,#2a1503,#3b0a2a);display:flex;align-items:center;justify-content:center;font-size:70px">🌌</div>
+      <div class="build-body">
+        <h4>NEON GARAGE SETUP</h4>
+        <span class="tag tag-orange">WEBSITE BANNER READY</span>
+        <p style="color:#8b98a9;font-size:14px">خلفية الجراج النيوني (Cyan + Orange) جاهزة لموقعك وثمبنيل يوتيوب</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="download" style="text-align:center;background:linear-gradient(180deg,transparent,rgba(168,85,247,.1));border-radius:24px">
+  <h2 class="sec-title">جاهز تهجول؟ <span>Car Parking 2</span></h2>
+  <p class="sec-sub">حمل اللعبة وادخل الكلان @cpm2enginelab</p>
+  <div class="hero-btns">
+    <a class="btn btn-cyan" href="#">Google Play 🤖</a>
+    <a class="btn" href="#">App Store 🍎</a>
+  </div>
+</section>
+
+<div class="thumb-wrap" id="thumb">
+  <h2 class="sec-title">صورة الموقع / الثمبنيل <span>(1280×720)</span></h2>
+  <p class="sec-sub">خذ سكرين شوت لهذا البانر واستخدمه كصورة رئيسية للموقع أو يوتيوب — نفس تصميم صورتك</p>
+  <div class="thumb">
+    <h1>DODGE CHARGER SRT</h1>
+    <h2>[ULTIMATE HYPER-BUILD UNLEASHED]</h2>
+    <div class="thumb-stats">2300Hp | 470km/h | 2926Nm &nbsp;&nbsp; @cpm2enginelab</div>
+  </div>
+  <p style="color:#64748b;font-size:13px">مقاس مثالي: اعمل Screenshot أو اضغط كليك يمين Save على الصورة الأصلية في assets/hero.webp</p>
+</div>
+
+<footer>@cpm2enginelab • Car Parking Multiplayer 2 Fan Site • تصميم للهواة وليس رسمي</footer>
+
+</body>
+</html>
