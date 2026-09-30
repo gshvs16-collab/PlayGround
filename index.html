@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CPM2 STORE | متجر كار باركينج 2</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0e1a; --bg2:#111827; --card:#161e32; --card2:#1e2a4a;
+  --line:rgba(255,255,255,.09);
+  --gold:#fbbf24; --gold2:#f59e0b;
+  --green:#22c55e; --blue:#38bdf8; --purple:#a78bfa; --red:#ef4444;
+  --txt:#f1f5f9; --mut:#8b9bb4;
+  --r:20px;
+}
+body{
+  font-family:'Segoe UI',Tahoma,Arial,sans-serif;
+  background:radial-gradient(1000px 500px at 50% -10%,#1d2b53 0%,var(--bg) 60%) fixed, var(--bg);
+  color:var(--txt); min-height:100vh;
+  display:flex; justify-content:center;
+}
+.phone{
+  width:100%; max-width:430px; min-height:100vh;
+  background:linear-gradient(180deg,#0d1428,#0a0e1a);
+  border-inline:1px solid var(--line);
+  position:relative; overflow:hidden; padding-bottom:110px;
+}
+/* header app bar */
+.topbar{
+  position:sticky; top:0; z-index:50;
+  backdrop-filter:blur(16px); background:rgba(10,14,26,.85);
+  border-bottom:1px solid var(--line);
+  padding:14px 16px 10px;
+}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-badge{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:24px;
+  background:linear-gradient(135deg,#fbbf24,#ef4444 60%,#7c3aed);
+  box-shadow:0 6px 20px rgba(251,191,36,.35);
+}
+.logo b{font-size:16px;display:block;line-height:1.1}
+.logo span{font-size:11px;color:var(--gold);letter-spacing:.5px}
+.wallet{display:flex;gap:8px}
+.coin{
+  display:flex;align-items:center;gap:6px;
+  background:#0f1a33;border:1px solid var(--line);
+  padding:6px 10px;border-radius:999px;font-size:13px;font-weight:700;
+}
+.coin small{color:var(--mut);font-weight:400}
+.coin.g{border-color:rgba(251,191,36,.4)} .coin.b{border-color:rgba(56,189,248,.4)}
+.plus{width:20px;height:20px;border-radius:50%;background:var(--green);display:grid;place-items:center;color:#fff;font-size:14px;cursor:pointer}
+/* hero */
+.hero{margin:14px 16px 0;border-radius:24px;overflow:hidden;position:relative;
+  background:linear-gradient(120deg,#1e1b4b,#7c2d12 50%,#0f172a);
+  border:1px solid rgba(251,191,36,.25); min-height:190px;
+  display:flex;align-items:flex-end;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(300px 150px at 80% 20%,rgba(251,191,36,.35),transparent),
+    linear-gradient(transparent 40%,rgba(0,0,0,.75));
+}
+.road{position:absolute;left:0;right:0;bottom:26px;height:54px;
+  background:repeating-linear-gradient(90deg,#fbbf24 0 28px,transparent 28px 52px);
+  opacity:.18;transform:skewY(-4deg)}
+.car-big{position:absolute;top:18px;left:16px;font-size:86px;filter:drop-shadow(0 12px 20px rgba(0,0,0,.6));animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(-3deg)}}
+.hero-txt{position:relative;padding:16px;z-index:2;width:100%}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#111;font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;margin-bottom:8px}
+.hero-txt h1{font-size:21px;line-height:1.3;margin-bottom:4px}
+.hero-txt p{font-size:12.5px;color:#e2e8f0;opacity:.9;margin-bottom:10px}
+.hero-btns{display:flex;gap:8px}
+.btn{border:0;cursor:pointer;font-weight:800;border-radius:12px;padding:10px 16px;font-size:13px;transition:.2s}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#111;box-shadow:0 6px 18px rgba(245,158,11,.4)}
+.btn-gold:active{transform:scale(.96)}
+.btn-ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)}
+/* search + cats */
+.search{margin:14px 16px 0;display:flex;gap:8px}
+.search input{
+  flex:1;background:#0f1a33;border:1px solid var(--line);color:#fff;
+  border-radius:14px;padding:12px 14px;font-size:14px;outline:none;
+}
+.search input:focus{border-color:var(--gold)}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{white-space:nowrap;border:1px solid var(--line);background:#101a33;color:var(--mut);
+  padding:8px 14px;border-radius:999px;font-size:13px;cursor:pointer;transition:.2s}
+.cat.active{background:linear-gradient(135deg,var(--gold),#f97316);color:#111;border-color:transparent;font-weight:800;box-shadow:0 4px 14px rgba(251,191,36,.35)}
+/* section */
+.sec{padding:6px 16px 0}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin:10px 0}
+.sec-head h2{font-size:15px}
+.sec-head a{font-size:12px;color:var(--blue);cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{
+  background:linear-gradient(180deg,var(--card2),var(--card));
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  position:relative;transition:.2s;
+}
+.card:active{transform:scale(.97)}
+.card-img{height:110px;display:grid;place-items:center;font-size:56px;position:relative;overflow:hidden}
+.card-img::after{content:'';position:absolute;inset:0;background:radial-gradient(200px 100px at 50% 0%,rgba(255,255,255,.15),transparent)}
+.tag{position:absolute;top:8px;right:8px;z-index:2;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px}
+.tag.hot{background:var(--red);color:#fff} .tag.new{background:var(--green);color:#fff}
+.tag.vip{background:linear-gradient(135deg,#a78bfa,#ec4899);color:#fff}
+.tag.sale{background:var(--gold);color:#111}
+.card-body{padding:10px 11px 12px}
+.card-body h3{font-size:13px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-body p{font-size:11px;color:var(--mut);margin-bottom:8px}
+.price-row{display:flex;align-items:center;justify-content:space-between}
+.price{font-weight:800;font-size:13px;color:var(--gold)}
+.price s{display:block;font-size:10px;color:var(--mut);font-weight:400}
+.buy{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:0;border-radius:10px;padding:7px 12px;font-size:12px;font-weight:800;cursor:pointer}
+.buy.gem{background:linear-gradient(135deg,#38bdf8,#6366f1)}
+.buy:disabled{opacity:.4;cursor:default}
+/* wide card */
+.wide{grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:12px}
+.wide .w-img{width:78px;height:78px;border-radius:16px;display:grid;place-items:center;font-size:42px;flex-shrink:0}
+.wide div{flex:1} .wide h3{font-size:14px} .wide p{font-size:12px;color:var(--mut)}
+/* spin banner */
+.spin{margin:14px 16px 0;background:linear-gradient(135deg,#312e81,#7c3aed,#db2777);border-radius:20px;padding:16px;display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.15)}
+.spin .emoji{font-size:44px;animation:spin 4s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* bottom nav */
+.navbar{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:430px;z-index:60;
+  background:rgba(13,20,40,.95);backdrop-filter:blur(16px);
+  border-top:1px solid var(--line);
+  display:flex;justify-content:space-around;padding:10px 8px calc(10px + env(safe-area-inset-bottom));
+}
+.nav{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--mut);cursor:pointer;background:none;border:0;min-width:64px}
+.nav span:first-child{font-size:21px}
+.nav.active{color:var(--gold)}
+.cart-count{position:absolute;margin-top:-28px;margin-left:-30px;background:var(--red);color:#fff;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:999px;display:grid;place-items:center;padding:0 5px}
+/* modals */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.overlay.open{display:flex}
+.sheet{width:100%;max-width:430px;background:#131b31;border-radius:26px 26px 0 0;border:1px solid var(--line);padding:18px;max-height:88vh;overflow:auto;animation:up .3s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet .grab{width:44px;height:5px;border-radius:99px;background:rgba(255,255,255,.2);margin:0 auto 14px}
+.detail-img{height:170px;border-radius:18px;display:grid;place-items:center;font-size:96px;margin-bottom:12px}
+.specs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px 0}
+.spec{background:#0d1530;border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}
+.spec b{display:block;font-size:14px} .spec small{font-size:11px;color:var(--mut)}
+.cart-item{display:flex;align-items:center;gap:10px;background:#0d1530;border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:8px}
+.cart-item .e{font-size:32px;width:52px;height:52px;display:grid;place-items:center;border-radius:12px}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:#111c36;border:1px solid var(--gold);color:#fff;padding:10px 18px;border-radius:999px;font-size:13px;z-index:200;opacity:0;pointer-events:none;transition:.3s;max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.inv{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}
+.inv::-webkit-scrollbar{display:none}
+.inv-box{min-width:92px;background:#0d1530;border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center;font-size:26px}
+.inv-box small{display:block;font-size:10px;color:var(--mut);margin-top:4px}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <div class="topbar">
+    <div class="row">
+      <div class="logo">
+        <div class="logo-badge">🅿️</div>
+        <div><b>CPM2 STORE</b><span>★ متجر كار باركينج 2 الرسمي</span></div>
+      </div>
+      <div class="wallet">
+        <div class="coin g">🪙 <span id="coins">125,000</span> <span class="plus" onclick="addMoney('coins')">+</span></div>
+        <div class="coin b">💎 <span id="gems">850</span> <span class="plus" onclick="addMoney('gems')">+</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="road"></div>
+    <div class="car-big">🏎️</div>
+    <div class="hero-txt">
+      <div class="badge">🔥 الموسم 12 — خصم حتى 50%</div>
+      <h1>Bugatti Chiron Super Sport وصلت!</h1>
+      <p>أسرع سيارة في اللعبة • سرعة 490 • حصرية المتجر فقط</p>
+      <div class="hero-btns">
+        <button class="btn btn-gold" onclick="openDetail(1)">اشترِ الآن — 🪙 950,000</button>
+        <button class="btn btn-ghost" onclick="toast('🎬 تم تشغيل فيديو الاستعراض (تجريبي)')">▶ استعراض</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="search">
+    <input id="q" placeholder="🔍 ابحث عن سيارة، سكن، لوحة..." oninput="render()">
+  </div>
+
+  <div class="cats" id="cats"></div>
+
+  <div class="sec">
+    <div class="sec-head"><h2>⚡ عروض تنتهي الليلة</h2><a onclick="filterCat('الكل')">عرض الكل</a></div>
+    <div style="background:#1a1206;border:1px solid rgba(251,191,36,.3);border-radius:12px;padding:8px 12px;font-size:12px;margin-bottom:12px;text-align:center">⏳ ينتهي العرض خلال: <b id="timer" style="color:var(--gold)">05:59:59</b></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="spin">
+    <div class="emoji">🎡</div>
+    <div style="flex:1">
+      <b style="font-size:14px">عجلة الحظ اليومية — مجانية!</b>
+      <div style="font-size:12px;opacity:.85">اربح حتى 100,000 🪙 أو سيارة نادرة 🎁</div>
+    </div>
+    <button class="btn btn-gold" onclick="spin()">دوّر</button>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><h2>🎁 صناديق الحظ</h2></div>
+    <div class="grid" id="boxes"></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-head"><h2>🚗 مرآبي (<span id="invCount">0</span>)</h2><a onclick="toast('تم حفظ المرآب في حسابك ✅')">مزامنة ☁️</a></div>
+    <div class="inv" id="inv"><div style="color:var(--mut);font-size:12px;padding:8px">اشترِ سيارات لتظهر هنا...</div></div>
+  </div>
+
+  <nav class="navbar">
+    <button class="nav active"><span>🏠</span>الرئيسية</button>
+    <button class="nav" onclick="toast('🚗 قسم السيارات — أنت فيه الآن')"><span>🚗</span>سيارات</button>
+    <button class="nav" style="position:relative" onclick="openCart()"><span>🛒</span>السلة<span class="cart-count" id="cartCount">0</span></button>
+    <button class="nav" onclick="toast('🏆 الترتيب: أنت #1,248 — شد حيلك!')"><span>🏆</span>الترتيب</button>
+    <button class="nav" onclick="toast('👤 اللاعب: GSHVS16 • مستوى 47 • VIP 👑')"><span>👤</span>حسابي</button>
+  </nav>
+</div>
+
+<!-- detail modal -->
+<div class="overlay" id="ovDetail" onclick="if(event.target==this)closeAll()">
+  <div class="sheet">
+    <div class="grab"></div>
+    <div class="detail-img" id="dImg">🏎️</div>
+    <h2 id="dName"></h2>
+    <p id="dDesc" style="color:var(--mut);font-size:13px;margin:4px 0"></p>
+    <div class="specs" id="dSpecs"></div>
+    <div class="row" style="margin-bottom:12px">
+      <div class="price" id="dPrice" style="font-size:18px"></div>
+      <div style="font-size:12px;color:var(--green)">✅ متوفر • تسليم فوري للمرآب</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-gold" style="flex:1" id="dBuy">اشترِ الآن</button>
+      <button class="btn btn-ghost" onclick="addToCart(current.id);closeAll();openCart()">🛒 سلة</button>
+    </div>
+  </div>
+</div>
+
+<!-- cart modal -->
+<div class="overlay" id="ovCart" onclick="if(event.target==this)closeAll()">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h2>🛒 سلة المشتريات</h2>
+    <div id="cartItems" style="margin:12px 0"></div>
+    <div class="row" style="margin-bottom:12px"><span>الإجمالي:</span><b id="cartTotal" style="color:var(--gold)">🪙 0</b></div>
+    <button class="btn btn-gold" style="width:100%;padding:14px" onclick="checkout()">تأكيد الشراء ✅</button>
+    <button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="closeAll()">متابعة التسوق</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PRODUCTS=[
+ {id:1,cat:'سيارات',name:'Bugatti Chiron SS',desc:'أسرع سيارة • حصرية الموسم 12',emoji:'🏎️',bg:'linear-gradient(135deg,#7c2d12,#f59e0b)',price:950000,cur:'coins',tag:'hot',tagTxt:'🔥 نادرة',sp:490,hp:1600,acc:2.4},
+ {id:2,cat:'سيارات',name:'Nissan GTR R35 Nismo',desc:'وحش الدريفت • تعديل مجاني',emoji:'🚗',bg:'linear-gradient(135deg,#1e3a8a,#38bdf8)',price:420000,cur:'coins',tag:'sale',tagTxt:'-30%',sp:315,hp:600,acc:2.9,old:600000},
+ {id:3,cat:'سيارات',name:'Mercedes G63 AMG',desc:'ملك البر • دفع رباعي',emoji:'🚙',bg:'linear-gradient(135deg,#052e16,#22c55e)',price:380,useGem:1,cur:'gems',tag:'new',tagTxt:'جديد',sp:240,hp:585,acc:4.5},
+ {id:4,cat:'سيارات',name:'Toyota Supra MK4',desc:'أسطورة الجي دي ام',emoji:'🚘',bg:'linear-gradient(135deg,#4c1d95,#ec4899)',price:290000,cur:'coins',tag:'',sp:280,hp:500,acc:3.8},
+ {id:5,cat:'سيارات',name:'Lamborghini Urus',desc:'SUV خارق للمهام',emoji:'🛻',bg:'linear-gradient(135deg,#78350f,#fbbf24)',price:510,useGem:1,cur:'gems',tag:'vip',tagTxt:'VIP',sp:305,hp:650,acc:3.6},
+ {id:6,cat:'سيارات',name:'BMW M4 CSL',desc:'دقة ألمانية • توازن مثالي',emoji:'🏁',bg:'linear-gradient(135deg,#0f172a,#64748b)',price:350000,cur:'coins',tag:'',sp:307,hp:550,acc:3.7},
+ {id:7,cat:'سكنات',name:'سكن ذهبي ملكي 👑',desc:'لمعة ذهبية + تأثير نار',emoji:'✨',bg:'linear-gradient(135deg,#713f12,#fde047)',price:120000,cur:'coins',tag:'hot',tagTxt:'الأكثر مبيعاً'},
+ {id:8,cat:'سكنات',name:'سكن تنين النيون 🐉',desc:'نيون متحرك RGB',emoji:'🐲',bg:'linear-gradient(135deg,#831843,#22d3ee)',price:150,cur:'gems',tag:'new',tagTxt:'جديد'},
+ {id:9,cat:'لوحات',name:'لوحة VIP مميزة',desc:'رقم ثلاثي من اختيارك',emoji:'🔢',bg:'linear-gradient(135deg,#1e1b4b,#a78bfa)',price:80000,cur:'coins',tag:''},
+ {id:10,cat:'لوحات',name:'لوحة سعودية 🇸🇦',desc:'تصميم واقعي + شعار',emoji:'🇸🇦',bg:'linear-gradient(135deg,#14532d,#bbf7d0)',price:50,cur:'gems',tag:''},
+ {id:11,cat:'عملات',name:'حزمة المليونير 💰',desc:'1,000,000 🪙 + بونص 20%',emoji:'💰',bg:'linear-gradient(135deg,#713f12,#f59e0b)',price:0,real:'29.99$',tag:'sale',tagTxt:'+20%'},
+ {id:12,cat:'عملات',name:'حزمة الجواهر 💠',desc:'1,000 💎 بسعر خاص',emoji:'💠',bg:'linear-gradient(135deg,#0c4a6e,#38bdf8)',price:0,real:'49.99$',tag:'vip',tagTxt:'الأفضل'},
+];
+const BOXES=[
+ {id:101,name:'صندوق أسطوري',emoji:'🎁',bg:'linear-gradient(135deg,#7c3aed,#ec4899)',price:200,cur:'gems'},
+ {id:102,name:'صندوق ذهبي',emoji:'📦',bg:'linear-gradient(135deg,#92400e,#fbbf24)',price:150000,cur:'coins'},
+];
+let state={coins:125000,gems:850,cart:[],inv:[],cat:'الكل',q:''};
+try{const s=JSON.parse(localStorage.getItem('cpm2')||'null');if(s)state={...state,...s}}catch(e){}
+function save(){localStorage.setItem('cpm2',JSON.stringify(state))}
+function fmt(n){return n.toLocaleString('en-US')}
+const CATS=['الكل','سيارات','سكنات','لوحات','عملات'];
+let current=null;
+
+function renderCats(){
+ document.getElementById('cats').innerHTML=CATS.map(c=>`<div class="cat ${state.cat==c?'active':''}" onclick="filterCat('${c}')">${c}</div>`).join('');
+}
+function filterCat(c){state.cat=c;renderCats();render()}
+function priceHTML(p){
+ if(p.real) return `<div class="price">${p.real}</div>`;
+ const ic=p.cur=='gems'?'💎':'🪙';
+ const old=p.old?`<s>${ic} ${fmt(p.old)}</s>`:'';
+ return `<div class="price">${old}${ic} ${fmt(p.price)}</div>`;
+}
+function render(){
+ renderCats();
+ const q=(document.getElementById('q').value||'').trim();
+ let list=PRODUCTS.filter(p=>(state.cat=='الكل'||p.cat==state.cat)&&(!q||p.name.includes(q)||p.desc.includes(q)));
+ document.getElementById('grid').innerHTML=list.map(p=>`
+  <div class="card" onclick="openDetail(${p.id})">
+   ${p.tag?`<div class="tag ${p.tag}">${p.tagTxt}</div>`:''}
+   <div class="card-img" style="background:${p.bg}">${p.emoji}</div>
+   <div class="card-body"><h3>${p.name}</h3><p>${p.desc}</p>
+    <div class="price-row">${priceHTML(p)}
+    <button class="buy ${p.cur=='gems'?'gem':''}" onclick="event.stopPropagation();quickBuy(${p.id})">شراء</button></div>
+   </div></div>`).join('')||'<div style="grid-column:1/-1;text-align:center;color:var(--mut);padding:20px">لا توجد نتائج 🔍</div>';
+ document.getElementById('boxes').innerHTML=BOXES.map(b=>`
+  <div class="card wide"><div class="w-img" style="background:${b.bg}">${b.emoji}</div>
+  <div><h3>${b.name}</h3><p>سيارة عشوائية حتى أسطورية!</p></div>
+  <div><div class="price" style="margin-bottom:6px">${b.cur=='gems'?'💎':'🪙'} ${fmt(b.price)}</div>
+  <button class="buy ${b.cur=='gems'?'gem':''}" onclick="quickBuy(${b.id})">فتح</button></div></div>`).join('');
+ document.getElementById('coins').textContent=fmt(state.coins);
+ document.getElementById('gems').textContent=fmt(state.gems);
+ document.getElementById('cartCount').textContent=state.cart.length;
+ document.getElementById('invCount').textContent=state.inv.length;
+ document.getElementById('inv').innerHTML=state.inv.length?state.inv.map(id=>{
+   const p=[...PRODUCTS,...BOXES].find(x=>x.id==id); if(!p)return'';
+   return `<div class="inv-box" style="background:${p.bg}">${p.emoji}<small>${p.name.slice(0,12)}</small></div>`}).join('')
+  :'<div style="color:var(--mut);font-size:12px;padding:8px">اشترِ سيارات لتظهر هنا...</div>';
+ save();
+}
+function find(id){return [...PRODUCTS,...BOXES].find(p=>p.id==id)}
+function openDetail(id){
+ const p=find(id); current=p;
+ document.getElementById('dImg').textContent=p.emoji;
+ document.getElementById('dImg').style.background=p.bg;
+ document.getElementById('dName').textContent=p.name;
+ document.getElementById('dDesc').textContent=p.desc+' • قسم '+p.cat;
+ document.getElementById('dSpecs').innerHTML=p.sp?`
+   <div class="spec"><b>${p.sp} km/h</b><small>⚡ السرعة</small></div>
+   <div class="spec"><b>${p.hp} HP</b><small>🔧 القوة</small></div>
+   <div class="spec"><b>${p.acc}s</b><small>🚀 0-100</small></div>`
+  :`<div class="spec"><b>فوري</b><small>⚡ تفعيل</small></div>
+    <div class="spec"><b>دائم</b><small>♾️ المدة</small></div>
+    <div class="spec"><b>✅</b><small>ضمان</small></div>`;
+ document.getElementById('dPrice').innerHTML=p.real?p.real+' 💵':(p.cur=='gems'?'💎 ':'🪙 ')+fmt(p.price);
+ document.getElementById('dBuy').onclick=()=>quickBuy(p.id);
+ document.getElementById('ovDetail').classList.add('open');
+}
+function canAfford(p){
+ if(p.real) return true;
+ return p.cur=='gems'?state.gems>=p.price:state.coins>=p.price;
+}
+function doPay(p){
+ if(p.real){toast('💳 تم الدفع بنجاح — أهلاً بك في نادي المليونير!');return true}
+ if(p.cur=='gems'){if(state.gems<p.price){toast('❌ جواهر غير كافية! اشحن من زر +');return false}state.gems-=p.price}
+ else{if(state.coins<p.price){toast('❌ كوينز غير كافية!');return false}state.coins-=p.price}
+ return true;
+}
+function quickBuy(id){
+ const p=find(id);
+ if(p.id>=100){ // box
+   if(!doPay(p))return;
+   const rewards=['🚗','🏎️','🚙','✨','🪙 50,000'];
+   const r=rewards[Math.floor(Math.random()*rewards.length)];
+   state.inv.push(p.id); render();
+   toast(`🎁 مبروك! ربحت من الصندوق: ${r}`); closeAll(); return;
+ }
+ if(!doPay(p))return;
+ state.inv.push(p.id); render(); closeAll();
+ toast(`✅ تمت إضافة ${p.name} إلى مرآبك!`);
+}
+function addToCart(id){
+ if(!state.cart.includes(id)){state.cart.push(id);toast('🛒 أُضيفت للسلة')}else toast('موجودة بالسلة مسبقاً');
+ render();
+}
+function openCart(){
+ const box=document.getElementById('cartItems');
+ if(!state.cart.length)box.innerHTML='<div style="text-align:center;color:var(--mut);padding:16px">سلتك فاضية 🛒<br>أضف سيارات أحلامك!</div>';
+ else box.innerHTML=state.cart.map(id=>{const p=find(id);return `
+  <div class="cart-item"><div class="e" style="background:${p.bg}">${p.emoji}</div>
+  <div style="flex:1"><b style="font-size:13px">${p.name}</b><div style="font-size:12px;color:var(--gold)">${p.real||((p.cur=='gems'?'💎 ':'🪙 ')+fmt(p.price))}</div></div>
+  <button onclick="rmCart(${id})" style="background:none;border:0;font-size:18px;cursor:pointer">🗑️</button></div>`}).join('');
+ let t=state.cart.reduce((s,id)=>{const p=find(id);return p.real?s:s+(p.cur=='gems'?p.price*1000:p.price)},0);
+ document.getElementById('cartTotal').textContent='🪙 '+fmt(t)+' (+ 💎)';
+ document.getElementById('ovCart').classList.add('open');
+}
+function rmCart(id){state.cart=state.cart.filter(x=>x!==id);render();openCart()}
+function checkout(){
+ if(!state.cart.length){toast('سلتك فاضية!');return}
+ for(const id of [...state.cart]){const p=find(id);if(doPay(p)){state.inv.push(id);state.cart=state.cart.filter(x=>x!==id)}}
+ render();openCart();toast('🎉 مبروك! تم شراء كل السلة بنجاح');
+}
+function addMoney(t){
+ if(t=='coins'){state.coins+=50000;toast('🎁 مكافأة يومية: +50,000 🪙')}
+ else{state.gems+=100;toast('💎 تم شحن +100 جوهرة (عرض تجريبي مجاني)')}
+ render();
+}
+function spin(){
+ const r=Math.floor(Math.random()*5);
+ const prizes=['10,000 🪙','25,000 🪙','50 💎','100,000 🪙 � jackpot','🚗 سيارة مجانية!'];
+ const prize=prizes[r];
+ if(r==0)state.coins+=10000; if(r==1)state.coins+=25000;
+ if(r==2)state.gems+=50; if(r==3)state.coins+=100000;
+ if(r==4)state.inv.push(4);
+ render(); toast('🎡 ربحت: '+prize);
+}
+function closeAll(){document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('open'))}
+let toastT;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600)}
+// timer
+let s=5*3600+59*60+59;
+setInterval(()=>{s=Math.max(0,s-1);const h=String(Math.floor(s/3600)).padStart(2,'0'),m=String(Math.floor(s%3600/60)).padStart(2,'0'),x=String(s%60).padStart(2,'0');const e=document.getElementById('timer');if(e)e.textContent=`${h}:${m}:${x}`},1000);
+render();
+</script>
+</body>
+</html>
